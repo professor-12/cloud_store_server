@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#_1-ol-c+3%%mtl*8ti__jjytn&%=d-dq)9x%!fkik*+qwf0cs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cloud-store-server-9er6.onrender.com']
 
 
 # Application definition
