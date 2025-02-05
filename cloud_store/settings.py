@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#_1-ol-c+3%%mtl*8ti__jjytn&%=d-dq)9x%!fkik*+qwf0cs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cloud-store-server-9er6.onrender.com']
+ALLOWED_HOSTS = ['cloud-store-server-9er6.onrender.com',"localhost","127.0.0.1"]
 
 
 # Application definition
@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'core',
     'rest_framework.authtoken',
-    'django_filters'
+    'django_filters',
+    'cloudinary_storage',
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+
 
 ROOT_URLCONF = 'cloud_store.urls'
 
@@ -88,7 +93,7 @@ DATABASES = {
 
 
 
-DATABASES["default"] = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
+# DATABASES["default"] = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
 
 
 
@@ -136,8 +141,16 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dwygokrf3',
+    'API_KEY': '874178793475267',
+    'API_SECRET': 'SFVAAWG1Fol0l5SCDOQKDgEjemU'
+}
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'  # or any prefix you choose
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # cloud_3eub
 

@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True,storage=RawMediaCloudinaryStorage)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -34,7 +34,7 @@ class File(models.Model):
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=100)
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
-    file = models.FileField(upload_to="files/%Y/%m/%d/")
+    file = models.FileField(upload_to="files/",storage=RawMediaCloudinaryStorage)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     star = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
