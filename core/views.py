@@ -184,7 +184,7 @@ def profile(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def searchFile(request):
-    query = request.GET.get("q", "").strip()  
+    query = request.GET.get("search", "").strip()  
     print(query)
     if not query:  
         return Response([], status=200)
@@ -200,12 +200,19 @@ def searchFile(request):
 
 
 class searchFileVIEW(generics.ListAPIView):
-    queryset = File.objects.all()
+    queryset = File.objects.filter
     serializer_class = FileSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes=[TokenAuthentication]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name']
+
+
+# @api_view(["GET"])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# def search(request):
+#     queryset = File.objects.filter(user=request.user,name__icontain=request.GET.get("search"))
 
 
 @api_view(["GET"])

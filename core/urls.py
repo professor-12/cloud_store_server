@@ -10,7 +10,7 @@ urlpatterns = [
       path("get-file/",getFiles),
       path("get-file/starred",getStarredFile),
       path("profile/",profile),
-      # path("search/",searchFile),
-      path("search/",searchFileVIEW.as_view()),
+      path("search/",searchFile),
+      # path("search/",searchFileVIEW.as_view()),
       path("spam/",spam),
 ]
