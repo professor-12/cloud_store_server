@@ -43,7 +43,18 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'cloudinary_storage',
-    'cloudinary'
+    'cloudinary',
+    'oauth2_provider',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+
+]
+AUTHENTICATION_BACKENDS = [
+    
+    'allauth.account.auth_backends.AuthenticationBackend', 
 ]
 
 MIDDLEWARE = [
@@ -55,9 +66,34 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id':'159095676496-ucs66a3mjavpevkc8675e0h9lu7dg9jb.apps.googleusercontent.com',
+            'secret': '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',
+          
+        },
+        'SCOPE': ['profile','email',],
+         'AUTH_PARAMS': {'access_type': 'online'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+    },
+    'github': {
+        'APP': {
+            'client_id': 'Ov23litDVqIGJ32rcISQ',
+            'secret': '63ee7dc789ce8a0da84f1520a1e3f47e1557659d',
+           
+        }
+    }
+   
+}
+
+SOCIALACCOUNT_LOGIN_ON_GET= True
 
 
 ROOT_URLCONF = 'cloud_store.urls'
@@ -93,7 +129,7 @@ DATABASES = {
 
 
 
-DATABASES["default"] = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
+DATA = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
 
 
 
