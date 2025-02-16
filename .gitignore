@@ -3,3 +3,4 @@ env/
 files/
 profile_pictures/
 .env/
+.env
