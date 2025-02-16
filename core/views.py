@@ -133,9 +133,6 @@ def createfile(request):
         file_serializer.save()
         print(file_serializer.data)
         return Response("Created",status=200)
-        
-
-
     return Response("Created",status=200)
 
 @api_view(['GET'])
@@ -144,6 +141,7 @@ def createfile(request):
 def user(request):
     userSerializer = UserSerializer(request.user)
     return Response({ "user": userSerializer.data },status=200)
+
 
 
 @api_view(['GET'])
@@ -162,6 +160,8 @@ def getStarredFile(request):
     json = FileSerializer(starred_file,many=True)
     return Response(json.data,status=200)
 
+
+
 @api_view(['GET','POST'])
 @parser_classes([MultiPartParser,FormParser])
 @authentication_classes([TokenAuthentication])
@@ -177,7 +177,6 @@ def profile(request):
         if profileSerializer.is_valid(raise_exception=True):
             profileSerializer.save()
             return Response(profileSerializer.data)
-
 
 
 @api_view(["GET"])
@@ -213,6 +212,7 @@ class searchFileVIEW(generics.ListAPIView):
 # @permission_classes([IsAuthenticated])
 # def search(request):
 #     queryset = File.objects.filter(user=request.user,name__icontain=request.GET.get("search"))
+
 
 
 @api_view(["GET"])

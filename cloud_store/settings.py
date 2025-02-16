@@ -93,7 +93,7 @@ DATABASES = {
 
 
 
-DATABASES["default"] = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
+# DATABASES["default"] = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
 
 
 
@@ -150,7 +150,7 @@ CLOUDINARY_STORAGE = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MEDIA_URL = '/media/'
 MEDIA_URL = '/media/'  # or any prefix you choose
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 
 # cloud_3eub
 
