@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+import os
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,8 +77,8 @@ MIDDLEWARE = [
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id':'159095676496-ucs66a3mjavpevkc8675e0h9lu7dg9jb.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id':os.getenv('google_id'),
+            'secret': os.getenv('google_secret'),
           
         },
         'SCOPE': ['profile','email',],
@@ -85,8 +88,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'github': {
         'APP': {
-            'client_id': 'Ov23litDVqIGJ32rcISQ',
-            'secret': '63ee7dc789ce8a0da84f1520a1e3f47e1557659d',
+            'client_id':os.getenv('client_id'),
+            'secret': os.getenv('secret'),
            
         }
     }
