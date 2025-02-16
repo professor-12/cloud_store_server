@@ -132,8 +132,7 @@ DATABASES = {
 
 
 
-DATA = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
-
+DATA = dj_database_url.config(default='DATABASE_URL')
 
 
 REST_FRAMEWORK = {
@@ -181,9 +180,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dwygokrf3',
-    'API_KEY': '874178793475267',
-    'API_SECRET': 'SFVAAWG1Fol0l5SCDOQKDgEjemU'
+    'CLOUD_NAME': os.getenv('cloudinary_name'),
+    'API_KEY': os.getenv('cloudinary_key'),
+    'API_SECRET': os.getenv('cloudinary_secret'),
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
