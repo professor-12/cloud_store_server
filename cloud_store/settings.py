@@ -132,12 +132,7 @@ DATABASES = {
 
 
 
-<<<<<<< HEAD
-# DATABASES["default"] = dj_database_url.config(default='postgresql://cloud_3eub_user:3KXola3SQGk2If53CaqV5XmyR8P6gvQG@dpg-cuhbkbt2ng1s73848eh0-a.oregon-postgres.render.com/cloud_3eub')
-
-=======
 DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
->>>>>>> fb9ec3e022162ea7d10ac5563953c0d62ef42a7c
 
 
 REST_FRAMEWORK = {
