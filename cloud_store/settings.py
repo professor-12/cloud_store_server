@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#_1-ol-c+3%%mtl*8ti__jjytn&%=d-dq)9x%!fkik*+qwf0cs'
+SECRET_KEY = os.getenv('secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
 
 ALLOWED_HOSTS = ['cloud-store-server-9er6.onrender.com',"localhost","127.0.0.1"]
 
@@ -93,7 +94,6 @@ SOCIALACCOUNT_PROVIDERS = {
            
         }
     }
-   
 }
 
 SOCIALACCOUNT_LOGIN_ON_GET= True
@@ -132,7 +132,7 @@ DATABASES = {
 
 
 
-# DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
+DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
 
 
 REST_FRAMEWORK = {
