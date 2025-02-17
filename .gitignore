@@ -2,3 +2,5 @@ env/
 *.sqlite3
 files/
 profile_pictures/
+.env/
+.env
