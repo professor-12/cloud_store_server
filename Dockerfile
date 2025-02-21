@@ -16,7 +16,8 @@ ARG cloudinary_name
 ARG cloudinary_key
 ARG cloudinary_secret
 ARG DATABASE_URL
-
+ARG redirect_uri
+ARG secret_key
 
 ENV client_id=${client_id}
 ENV secret=${secret}
@@ -26,6 +27,8 @@ ENV cloudinary_name=${cloudinary_name}
 ENV cloudinary_key=${cloudinary_key}
 ENV cloudinary_secret=${cloudinary_secret}
 ENV DATABASE_URL=${DATABASE_URL}
+ENV redirect_uri=${redirect_uri}
+ENV secret=${secret_key}
 EXPOSE 8000
 
 CMD ["python","manage.py","runserver","0.0.0.0:8000"]

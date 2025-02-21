@@ -19,7 +19,11 @@ class UserSerializer(ModelSerializer):
         return user
     
 
-
+class SocialUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username","email"]
+        
 
 class ProfileSerializer(ModelSerializer):
     class Meta:
