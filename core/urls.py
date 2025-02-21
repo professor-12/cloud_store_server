@@ -13,4 +13,5 @@ urlpatterns = [
       path("search/",searchFile),
       # path("search/",searchFileVIEW.as_view()),
       path("spam/",spam),
+      path("google/callback/",google)
 ]

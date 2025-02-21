@@ -3,35 +3,30 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view , permission_classes , authentication_classes , parser_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser , FormParser
-from .serializers import FolderSerializer, UserSerializer , ProfileSerializer , FileSerializer
+from .serializers import *
 from django.contrib.auth.models import User 
 from .models import Folder , File , Profile
 from rest_framework.permissions import IsAuthenticated
-from django.contrib.postgres.search import TrigramSimilarity
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics , filters 
-
+import os
+import requests
 @api_view(['POST'])
 def register(request):
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
 
-    # Validate input fields
+    
     if not username or not password or not email:
         return Response({'error': 'Username, email, and password are required.'}, status=400)
 
-    # Check if the email or username already exists
+
     if User.objects.filter(email=email).exists():
         return Response({'error': 'Email is already registered.'}, status=400)
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username is already taken.'}, status=400)
 
-    #  Create a profile
-
-    # Create a drive
-
-    # Serialize and save user data
     user_serializer = UserSerializer(data={'username': username, 'password': password, 'email': email})
 
     if user_serializer.is_valid():
@@ -73,12 +68,10 @@ def login(request, *args, **kwargs):
         return Response({'error': 'Email and password are required.'}, status=400)
 
     try:
-        # Retrieve user by email
         user = User.objects.get(email=email)
     except User.DoesNotExist:
         return Response({"error": "Invalid credentials."}, status=401)
-
-    # Check password validity
+    
     if not user.check_password(password):
         return Response({"error": "Invalid credentials."}, status=401)
 
@@ -91,11 +84,9 @@ def login(request, *args, **kwargs):
         'token': token.key
     }, status=200)
 
-
-
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])  # Ensure the user is authenticated
-@authentication_classes([TokenAuthentication])  # Use token authentication
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication]) 
 def createFolder(request):
     name = request.data.get("name")
     # Validate folder name input
@@ -143,7 +134,6 @@ def user(request):
     return Response({ "user": userSerializer.data },status=200)
 
 
-
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -151,6 +141,17 @@ def getFiles(request):
     files = File.objects.filter(user=request.user)
     fileSerializer = FileSerializer(files,many=True)
     return Response({ "files": fileSerializer.data },status=200)
+
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def renameFiles(request):
+    
+    pass
+
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -207,13 +208,6 @@ class searchFileVIEW(generics.ListAPIView):
     search_fields = ['name']
 
 
-# @api_view(["GET"])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
-# def search(request):
-#     queryset = File.objects.filter(user=request.user,name__icontain=request.GET.get("search"))
-
-
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
@@ -222,3 +216,61 @@ def spam(request):
     spam_file = File.objects.filter(user=request.user,spam=True)
     _json = FileSerializer(spam_file,many=True)
     return Response(_json.data,status=200)
+
+
+
+@api_view(["GET"])
+def google(request):
+    code = request.GET.get("code")
+    if code is None:
+       return Response({"message": "No code provided"}, status=400)
+
+    PARAMS = {
+        "client_id": os.environ.get("google_id") or "",
+        "client_secret": os.environ.get("google_secret"),
+        "redirect_uri": os.environ.get("redirect_uri"),
+        "code": code,
+        "grant_type": "authorization_code",
+    }
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    token_response = requests.post("https://oauth2.googleapis.com/token", data=PARAMS, headers=headers)
+
+    if token_response.status_code != 200:
+        print(token_response.json())
+        return Response({"message": "Failed to get access token", "error": token_response.json()}, status=400)
+
+    token_data = token_response.json()
+    access_token = token_data.get("access_token")
+
+    user_info_response = requests.get(
+        "https://www.googleapis.com/oauth2/v2/userinfo",
+        headers={"Authorization": f"Bearer {access_token}"}
+    )
+
+    if user_info_response.status_code != 200:
+        return Response({"message": "Failed to fetch user info"}, status=400)
+
+    user_info = user_info_response.json()
+    existing_user = User.objects.filter(email=user_info["email"]).first()
+
+    if existing_user:
+        token, created = Token.objects.get_or_create(user=existing_user)
+        user_data = UserSerializer(existing_user).data
+        return Response({
+            'user': user_data,
+            'token': token.key
+        }, status=200)
+
+    # Creating a new user
+    create_user = SocialUserSerializer(data={"email": user_info["email"], "username": user_info["given_name"]})
+
+    if create_user.is_valid():
+        user_instance = create_user.save()
+        token, created = Token.objects.get_or_create(user=user_instance)
+        
+        return Response({
+            'user': create_user.data,
+            'token': token.key
+        }, status=200)
+
+    return Response({"message":"An error occured, Pleasee try again later"},status=500)
