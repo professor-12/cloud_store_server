@@ -135,8 +135,8 @@ DATABASES = {
 
 
 
-if os.environ.get("ENVIRONMENT") == "production":
-    DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
+
+DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
 
 
 REST_FRAMEWORK = {
