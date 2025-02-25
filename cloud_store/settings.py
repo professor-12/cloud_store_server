@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    '_auth'
 
 ]
 AUTHENTICATION_BACKENDS = [
@@ -131,6 +132,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 
 
 DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
