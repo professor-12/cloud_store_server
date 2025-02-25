@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    '_auth'
 
 ]
 AUTHENTICATION_BACKENDS = [
@@ -133,7 +134,9 @@ DATABASES = {
 }
 
 
-DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
+
+if os.environ.get("ENVIRONMENT") == "production":
+    DATABASES['default'] =   dj_database_url.config(default='DATABASE_URL')
 
 
 REST_FRAMEWORK = {
