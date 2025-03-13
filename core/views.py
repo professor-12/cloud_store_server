@@ -4,15 +4,10 @@ from rest_framework.decorators import api_view , permission_classes , authentica
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser , FormParser
 from .serializers import *
-from django.contrib.auth.models import User 
-from .models import Folder , File , Profile
+from .models import Folder , File 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics , filters 
-import os
-import requests
-from google.auth.transport import requests
-from google.oauth2 import id_token
 from rest_framework import status
 
 
@@ -41,6 +36,9 @@ def createFolder(request):
     }, status=201)
 
 
+
+
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser,FormParser])
 @authentication_classes([TokenAuthentication])
@@ -58,8 +56,6 @@ def createfile(request):
         return Response("Created",status=200)
     except:
         return Response({"message":"Connection error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])

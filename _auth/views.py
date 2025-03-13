@@ -61,6 +61,8 @@ def profile(request):
             profileSerializer.save()
             return Response(profileSerializer.data)
 
+
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
